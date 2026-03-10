@@ -39,6 +39,8 @@ print("-" * 80)
 import sys
 sys.dont_write_bytecode = True  # Impede a criação do cache
 
+from time import time
+
 from data.nomes_completos import nomes
 
 buscas = [
@@ -49,8 +51,11 @@ buscas = [
 ]
 
 for n in buscas:
+    hora_ini = time()
     pos = busca_sequencial(nomes, n)
+    hora_fim = time()
     if pos >= 0:
         print(f"Nome {n} encontrado na posição {pos}.")
     else:
         print(f"Nome {n} não encontrado, busca retornou {pos}.")
+    print(f"Tempo gasto: {(hora_fim - hora_ini) * 1000}ms.\n")
