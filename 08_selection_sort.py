@@ -70,3 +70,23 @@ selection_sort(nums)
 
 print("DEPOIS:", nums)
 print(f"Comparações: {comps}; trocas: {trocas}; passadas: {passd}")
+
+######################################################################
+
+# TESTE COM 1M+ NOMES
+
+from time import time
+
+import sys
+sys.dont_write_bytecode = True      # Desativa a criação do cache
+
+from data.nomes_desord import nomes
+
+hora_ini = time()
+selection_sort(nomes)
+hora_fim = time()
+
+print(nomes)
+
+print(f"Comparações: {comps}; trocas: {trocas}; passadas: {passd}")
+print(f"Tempo gasto: {(hora_fim - hora_ini) * 1000}ms.\n")
