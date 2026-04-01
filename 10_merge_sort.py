@@ -1,3 +1,6 @@
+# Variáveis globais de estatística
+divs = comps = juncs = 0
+
 def merge_sort(lista):
     """
     ALGORITMO DE ORDENAÇÃO MERGE SORT
@@ -7,6 +10,8 @@ def merge_sort(lista):
     técnica de mesclagem ("merging"), "monta" uma nova lista,
     contendo os elementos já ordenados.
     """
+    global divs, comps, juncs
+
     # PARTE 1: DIVISÃO DA LISTA ORIGINAL EM LISTAS MENORES
 
     # Para que possa haver a divisão da lista, esta deve ter
@@ -23,7 +28,9 @@ def merge_sort(lista):
     # Faz o mesmo para a segunda metade
     sublista_dir = lista[meio:]
 
-    print(f"ESQ: {sublista_esq}, DIR: {sublista_dir}")
+    divs += 1
+
+    #print(f"ESQ: {sublista_esq}, DIR: {sublista_dir}")
 
     # Chamamos recursivamente (duas vezes!) a própria função para
     # que ela continue repartindo cada sublista em outras duas, menores
@@ -41,6 +48,7 @@ def merge_sort(lista):
     # Percorremos as sublistas esquerda e direita, comparando os elementos
     # e os inserindo na ordem correta na lista ordenada
     while pos_esq < len(sublista_esq) and pos_dir < len(sublista_dir):
+        comps += 1
         # O menor elemento está na sublista da esquerda
         if sublista_esq[pos_esq] < sublista_dir[pos_dir]:
             ordenada.append(sublista_esq[pos_esq])
@@ -58,14 +66,46 @@ def merge_sort(lista):
 
     # A lista final ordenada é o resultado da junção (concatenação)
     # da lista ordenada com a sobra
+    juncs += 1
     return ordenada + sobra
 
 #############################################################################
 
+# Nos algoritmos recursivos, as variáveis globais de estatística não
+# podem ser zeradas dentro da função. Devemos fazer isso antes da
+# chamada à função
+divs = comps = juncs = 0
+
 nums = [7, 0, 6, 8, 1, 3, 9, 4, 2, 5]
 
-print("ANTES: ", nums)
+print("ANTES (nums)     :", nums)
 
 nums_ord = merge_sort(nums)
 
-print("DEPOIS:", nums_ord)
+print("DEPOIS (nums_ord):", nums_ord)
+print("DEPOIS (nums)    :", nums)
+
+print(f"Divisões: {divs}; comparações: {comps}; junções: {juncs}")
+
+import sys
+sys.exit(0)  # Sai do programa e não executa o código abaixo
+
+######################################################################
+
+# TESTE COM 1M+ NOMES
+
+from time import time
+
+import sys
+sys.dont_write_bytecode = True      # Desativa a criação do cache
+
+from data.nomes_desord import nomes
+
+hora_ini = time()
+nomes_ord = merge_sort(nomes)
+hora_fim = time()
+
+print(nomes_ord)
+
+#print(f"Comparações: {comps}; trocas: {trocas}; passadas: {passd}")
+print(f"Tempo gasto: {(hora_fim - hora_ini) * 1000}ms.\n")
