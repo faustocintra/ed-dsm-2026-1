@@ -87,8 +87,8 @@ print("DEPOIS (nums)    :", nums)
 
 print(f"Divisões: {divs}; comparações: {comps}; junções: {juncs}")
 
-import sys
-sys.exit(0)  # Sai do programa e não executa o código abaixo
+#import sys
+#sys.exit(0)  # Sai do programa e não executa o código abaixo
 
 ######################################################################
 
@@ -96,16 +96,21 @@ sys.exit(0)  # Sai do programa e não executa o código abaixo
 
 from time import time
 
-import sys
+import sys, tracemalloc
 sys.dont_write_bytecode = True      # Desativa a criação do cache
 
 from data.nomes_desord import nomes
 
+tracemalloc.start()         # Inicia a medição do consumo de memória
 hora_ini = time()
 nomes_ord = merge_sort(nomes)
 hora_fim = time()
 
+# Captura as informações de consumo de memória
+mem_atual, mem_pico = tracemalloc.get_traced_memory()
+
 print(nomes_ord)
 
 #print(f"Comparações: {comps}; trocas: {trocas}; passadas: {passd}")
+print(f"Pico de consumo de memória: {(mem_pico / 1024 / 1024):.4f}MB")
 print(f"Tempo gasto: {(hora_fim - hora_ini) * 1000}ms.\n")
