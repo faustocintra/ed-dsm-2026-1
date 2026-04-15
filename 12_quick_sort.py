@@ -73,9 +73,44 @@ def quick_sort(lista, ini = 0, fim = None):
 
 comps = trocas = passd = 0
 
-nums = [7, 0, 6, 8, 1, 3, 9, 4, 2, 5]
+# Caso médio
+# nums = [7, 0, 6, 8, 1, 3, 9, 4, 2, 5]
+# Comparações: 28; trocas: 10; passadas: 15
+
+# Pior caso (vetor inverso)
+nums = [9, 8, 7, 6, 5, 4, 3, 2, 1, 0]
+# Comparações: 30; trocas: 8; passadas: 15
+
+# Melhor caso
+# nums = [0, 3, 2, 1, 6, 5, 9, 8, 7, 4]
+# Comparações: 54; trocas: 0; passadas: 19
 
 print("ANTES: ", nums)
 quick_sort(nums)
 print("DEPOIS:", nums)
 print(f"Comparações: {comps}; trocas: {trocas}; passadas: {passd}")
+
+######################################################################
+
+# TESTE COM 1M+ NOMES
+
+from time import time
+
+import sys, tracemalloc
+sys.dont_write_bytecode = True      # Desativa a criação do cache
+
+from data.nomes_desord import nomes
+
+tracemalloc.start()         # Inicia a medição do consumo de memória
+hora_ini = time()
+quick_sort(nomes)
+hora_fim = time()
+
+# Captura as informações de consumo de memória
+mem_atual, mem_pico = tracemalloc.get_traced_memory()
+
+print(nomes)
+
+#print(f"Comparações: {comps}; trocas: {trocas}; passadas: {passd}")
+print(f"Pico de consumo de memória: {(mem_pico / 1024 / 1024):.4f}MB")
+print(f"Tempo gasto: {(hora_fim - hora_ini) * 1000}ms.\n")
