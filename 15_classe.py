@@ -28,15 +28,81 @@ class FormaGeometrica:
 
     def __init__(self, base, altura, tipo):
         """ Método construtor """
-        self.base = base
-        self.altura = altura
-        self.tipo = tipo
+        # Em Python, a forma de indicar que um atributo é PRIVADO
+        # é iniciando seu nome com duplo sublinhado (bizarro!)
+        # self.__base = base
+        # self.__altura = altura
+        # self.__tipo = tipo
+
+        # Chamamos os setters para configurar os valores iniciais
+        # dos atributos privados no construtor. Dessa forma, as 
+        # validações também serão executadas no ato de instanciação
+        # de qualquer objeto da classe
+        self.set_base(base)
+        self.set_altura(altura)
+        self.set_tipo(tipo)
+
+    # Getters e setters
+    def get_base(self):
+        return self.__base
+    
+    def set_base(self, val):
+        if type(val) not in [int, float] or val <= 0:
+            raise Exception("ERRO: atributo 'base' deve ser numérico e maior que zero.")
+        self.__base = val
+    
+    def get_altura(self):
+        return self.__altura
+    
+    def set_altura(self, val):
+        if type(val) not in [int, float] or val <= 0:
+            raise Exception("ERRO: atributo 'altura' deve ser numérico e maior que zero.")
+        self.__altura = val
+    
+    def get_tipo(self):
+        return self.__tipo
+    
+    def set_tipo(self, val):
+        if val not in ["R", "T", "E"]:
+            raise Exception("ERRO: atributo 'tipo' deve ser 'R', 'T' ou 'E'.")
+        self.__tipo = val
+
+    def calc_area(self):
+        """
+        Método que calcula a área com base no valor dos atributos da forma
+        """
+        match self.get_tipo():
+            case "R":       # Retângulo
+                return self.get_base() * self.get_altura()
+            case "T":       # Triângulo
+                return self.get_base() * self.get_altura() / 2
+            case "E": 
+                return (self.get_base() / 2) * (self.get_altura() / 2) * pi
+            # Não há necessidade de nenhum outro caso, já que outros valores
+            # para o atributo self.__tipo não são aceitos
+
 
 #####################################################################
 
 # Criando um objeto a partir da classe FormaGeometrica
-forma1 = FormaGeometrica("batata", 14, "R")
+forma1 = FormaGeometrica(12.5, 14, "R")
 
-print(f"Base: {forma1.base}")
-print(f"Altura: {forma1.altura}")
-print(f"Tipo: {forma1.tipo}")
+print("VALORES ORIGINAIS DOS ATRIBUTOS")
+print(f"Base: {forma1.get_base()}")
+print(f"Altura: {forma1.get_altura()}")
+print(f"Tipo: {forma1.get_tipo()}")
+print(f"Área: {forma1.calc_area()}")
+
+print("-" * 80)
+
+# Os valores dos atributos podem ser alterados após a instanciação
+# do objeto
+forma1.set_base(8)
+forma1.set_altura(6)
+forma1.set_tipo("T")
+
+print("VALORES ALTERADOS POSTERIORMENTE")
+print(f"Base: {forma1.get_base()}")
+print(f"Altura: {forma1.get_altura()}")
+print(f"Tipo: {forma1.get_tipo()}")
+print(f"Área: {forma1.calc_area()}")
