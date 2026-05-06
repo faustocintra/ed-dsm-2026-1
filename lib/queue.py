@@ -32,7 +32,7 @@ class Queue:
         Usando como base o código do arquovo stack.py, implemente os métodos
         descritos acima, fazendo as modificações necessárias para garantir o
         comportamento FIFO. Codifique também o arquivo 20_fila.py, com exemplos
-        de utilização de filas (use 16_pilha1.py) como modelo.
+        de utilização de filas (use 17_pilha2.py) como modelo.
 
         Entrega: até 12/05 às 19h, via Teams
 
